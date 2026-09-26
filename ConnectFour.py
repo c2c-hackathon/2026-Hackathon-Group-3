@@ -17,10 +17,18 @@ class ConnectFour:
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
         ] #TODO: Choose a structure to represent what pieces are currently in the game board
+        self.register_callbacks()
 
     def reset_game(self):
         #TODO reset the game state to its original empty state
-        pass
+         self.game_state = [
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
+        ]
 
     def register_callbacks(self):
         #TODO: Register callbacks that will be run when buttons are pressed and released
@@ -35,6 +43,10 @@ class ConnectFour:
         See NeoTrellisGame.set_callback() for info about callbacks.
         """
         #TODO: Implement what will happen when the button at position x,y is pressed or released
+        print("hello")
+        self.set_cell_color(0,0,(50, 50, 50))
+        self.update_display
+        
   
         pass
 
@@ -64,7 +76,7 @@ class ConnectFour:
 
     def get_player_color(self, player) -> tuple[int, int, int]:
         #TODO: Return the color for the given player 
-        pass
+        passExamples/disco.py
 
     def is_column_full(self, col: int):
         #TODO: Return if the given column is currently full
