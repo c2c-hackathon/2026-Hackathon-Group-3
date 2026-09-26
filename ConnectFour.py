@@ -1,4 +1,5 @@
 import typing
+import time
 
 from NeoTrellisGame import NeoTrellisGame, AbstractNeoTrellisGame, Action
 from adafruit_neotrellis.multitrellis import MultiTrellis
@@ -9,6 +10,21 @@ class ConnectFour:
     def __init__(self, board: typing.Optional[AbstractNeoTrellisGame] = None):
         self.board = board if board is not None else NeoTrellisGame()
         super().__init__()
+
+        self.choose_color = True
+        self.game = False
+        self.p1 = None
+        self.p2 = None
+        self.current_player = self.p1
+
+        self.register_callbacks()
+
+        self.choose_list = [OFF, RED, GREEN,PINK, BLUE, ORANGE, PURPLE, OFF]
+        for i in range(8):
+            self.board.set_cell_color(i, 0, self.choose_list[i])
+        self.board.update_display()
+
+
         self.game_state = [
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
@@ -17,7 +33,7 @@ class ConnectFour:
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
         ] #TODO: Choose a structure to represent what pieces are currently in the game board
-        self.register_callbacks()
+        # self.update_board_colors()
 
     def reset_game(self):
         #TODO reset the game state to its original empty state
@@ -35,6 +51,27 @@ class ConnectFour:
         self.board.set_callback(0, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
         self.board.activate_key(0, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
 
+        self.board.set_callback(1, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(1, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
+        self.board.set_callback(2, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(2, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
+        self.board.set_callback(3, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(3, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
+        self.board.set_callback(4, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(4, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+        
+        self.board.set_callback(5, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(5, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
+        self.board.set_callback(6, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(6, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
+        self.board.set_callback(7, 0, self.handle_button_event) # Example of how to register a callback (function) for button 0, 0. Must be done for every button that runs a function
+        self.board.activate_key(7, 0, Action.BUTTON_PRESSED) # Even though the callback is set, if the key is not enabled it will not be run. This is how you enable
+
         pass
   
     def handle_button_event(self, x:int, y: int, action: Action):
@@ -43,9 +80,39 @@ class ConnectFour:
         See NeoTrellisGame.set_callback() for info about callbacks.
         """
         #TODO: Implement what will happen when the button at position x,y is pressed or released
-        print("hello")
-        self.board.set_cell_color(0,0,(50, 50, 50))
-        self.board.update_display()
+        if self.choose_color:
+            if self.current_player == self.p1:
+                self.p1 = self.choose_list[x]
+                self.current_player = self.p2
+            elif self.current_player == self.p2:
+                self.p2 = self.choose_list[x]
+                self.current_player = self.p1
+                self.update_board_colors()
+                self.choose_color = False
+                self.game = True
+                self.current_player = self.p1
+
+        
+        print(str(self.p1) + "   " + str(self.p2))
+
+        if self.game:
+            self.show_current_player()
+            yc = 2
+            while yc < 8:
+                self.board.set_cell_color(x,yc, self.current_player)
+                yc = yc + 2
+
+                time.sleep(0.1)
+                self.board.update_display()
+
+
+        # self.update_board_colors()
+
+
+
+        # print("hello")
+        # self.board.set_cell_color(0,0,(50, 50, 50))
+        # self.board.update_display()
         
   
         pass
@@ -72,7 +139,9 @@ class ConnectFour:
         pass
 
     def show_current_player(self):
-        #TODO: Function to indicate on the board which player is currently placing a piece
+        for i in range(8):
+            self.board.set_cell_color(i, 0, self.current_player)
+            self.board.update_display()
         pass
 
     def is_board_full(self):
