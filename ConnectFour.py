@@ -44,8 +44,8 @@ class ConnectFour:
         """
         #TODO: Implement what will happen when the button at position x,y is pressed or released
         print("hello")
-        self.set_cell_color(0,0,(50, 50, 50))
-        self.update_display
+        self.board.set_cell_color(0,0,(50, 50, 50))
+        self.board.update_display()
         
   
         pass
