@@ -18,6 +18,12 @@ class ConnectFour:
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
         ] #TODO: Choose a structure to represent what pieces are currently in the game board
 
+        self.update_board_colors()
+
+        # self.board.set_cell_color(0,0,RED)
+        # self.board.update_display()
+        pass
+
     def reset_game(self):
         #TODO reset the game state to its original empty state
         pass
@@ -34,6 +40,7 @@ class ConnectFour:
         This is an example of how a callback function will look. It takes an x value, y value, and action, which will indicate what button activated the callback and what action the user did to run it.
         See NeoTrellisGame.set_callback() for info about callbacks.
         """
+        # print("hello")
         #TODO: Implement what will happen when the button at position x,y is pressed or released
   
         pass
@@ -47,8 +54,13 @@ class ConnectFour:
         pass
 
     def update_board_colors(self):
-        #TODO: Take the current game state and update the board colors accordingly. Hint: look at NeoTrellisGame.py for functions to update the colors and display the colors
-        pass
+        #TODO: Taie the current game state and update the board colors accordingly. Hint: look at NeoTrellisGame.py for functions to update the colors and display the colors
+        for a in range(6):
+            for b in range(8):
+                self.board.set_cell_color(b, a+2, self.game_state[a][b])
+            
+        self.board.update_display()
+        
 
     def switch_player(self):
         #TODO: Change which player is curently placing a piece. Keep track of this in some sort of variable
