@@ -1,0 +1,11 @@
+Opening screen: pick color x2
+- first row lights up with 
+
+6x8 grid
+
+while four-in-a-row does not exist:
+- row 0 lights up current player color, player in action presses a button
+- lowest possible light is saved in state
+- check if four-in-a-row exists
+- if so, break, store winning player
+- else, switch to next player
