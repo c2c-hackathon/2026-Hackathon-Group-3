@@ -10,12 +10,12 @@ class ConnectFour:
         self.board = board if board is not None else NeoTrellisGame()
         super().__init__()
         self.game_state = [
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF],
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF],
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF],
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF],
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF],
-            [OFF, OFF, OFF, OFF, OFF, OFF, OFF, OFF]
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
         ] #TODO: Choose a structure to represent what pieces are currently in the game board
 
     def reset_game(self):
