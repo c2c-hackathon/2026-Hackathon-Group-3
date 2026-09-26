@@ -112,26 +112,31 @@ class ConnectFour:
             #     self.board.update_display()
             #     self.game_state[self.find_lowest_empty_row(x)][x] = self.current_player
             #     self.update_board_colors()
+            if self.find_lowest_empty_row(x) == -1: pass
             self.game_state[self.find_lowest_empty_row(x)][x] = self.current_player
             self.update_board_colors()
+            self.board.play_sound("clack.mp3")
+
+            if self.check_win():
+                print("adhfjklashfkjuerhfkhelksifrhlkjasdhfljasdhflkhjdasfd")
+                self.show_winner()
+                self.board.play_sound("cheer.mp3")
+                time.sleep(3)
+                self.game = False
+                self.choose = True
+                self.reset_game()
+                self.update_board_colors()
+                self.choose_list = [OFF, RED, GREEN,PINK, BLUE, ORANGE, PURPLE, OFF]
+                for i in range(8):
+                    self.board.set_cell_color(i, 0, self.choose_list[i])
+                self.board.update_display()
+                self.game = True
+
             if self.current_player == self.p1:
                 self.current_player = self.p2
             elif self.current_player == self.p2:            
                 self.current_player = self.p1 
              
-            
-
-
-        # self.update_board_colors()
-
-
-
-        # print("hello")
-        # self.board.set_cell_color(0,0,(50, 50, 50))
-        # self.board.update_display()
-        
-  
-        pass
 
     def find_lowest_empty_row(self, col: int):
         c = []
@@ -148,7 +153,8 @@ class ConnectFour:
             a += 1
             print(a)
             if a >= 6:
-                raise Exception("column is full")
+                self.board.play_sound("ding.mp3")
+                return -1
         """
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
             [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
@@ -184,6 +190,113 @@ class ConnectFour:
             self.board.update_display()
         pass
 
+    def check_win(self):
+
+        inarow = 1
+        prevr = 0
+
+        for r in self.game_state:
+            for i in r:
+                if i == prevr and i != WHITE:
+                    inarow += 1
+                    # prevr = self.find_lowest_empty_row(x)
+                    prevr = i
+                else:
+                    inarow = 1
+                    prevr = i
+                if inarow == 4:
+                    return True
+        
+        inarow = 1
+        
+        for col in range(8):
+            c = []
+            for i in self.game_state:
+                c.append(i[col])
+
+            prevc = 0
+            for i in c:
+                if i == prevr and i != WHITE:
+                    inarow += 1
+                    prevr = i
+                else:
+                    inarow = 1
+                    prevr = i
+                if inarow == 4:
+                    return True
+
+        inarow = 1
+        prevd = 0
+
+        for a in range(6):
+            for b in range(8):
+                if self.game_state[a][b] != WHITE:
+                    try:
+                        if self.game_state[a][b] == self.game_state[a+1][b+1] == self.game_state[a+2][b+2] == self.game_state[a+3][b+4]:
+                            return True
+                    except:
+                        pass
+        
+        for a in range(6):
+            for b in range(8):
+                if self.game_state[a][b] != WHITE:
+                    try:
+                        if self.game_state[a][b] == self.game_state[a-1][b+1] == self.game_state[a-2][b+2] == self.game_state[a-3][b+4]:
+                            return True
+                    except:
+                        pass
+
+        # for a in range(6):
+        #     for b in range(8):
+        #         if self.game_state[a][b] != WHITE and self.game_state[a][b] == prevd:
+        #             inarow += 1
+        #             prevd = self.game_state[a][b]
+        #         else:
+        #             inarow = 1
+        #             if (a+1 < 6 and a+1 > 0) and (b+1 < 8 and b+1 > 0):
+        #                 prevd = self.game_state[a+1][b+1]
+        #             else:
+        #                 prevd = 0
+        #         if inarow == 4:
+        #             return True
+        
+        # inarow = 1
+        # prevd = 0
+        # for a in range(6):
+        #     for b in range(8):
+        #         if self.game_state[a][b] != WHITE and self.game_state[a][b] == prevd:
+        #             inarow += 1
+        #             prevd = self.game_state[a][b]
+        #         else:
+        #             inarow = 1
+        #             if (a+1 < 6 and a+1 > 0) and (b-1 < 8 and b-1 > 0):
+        #                 prevd = self.game_state[a+1][b-1]
+        #             else:
+        #                 prevd = 0
+        #         if inarow == 4:
+        #             return True
+        
+
+
+        
+
+    def show_winner(self):
+        current_player = self.current_player
+        self.game_state = [
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+            [current_player, current_player, current_player, current_player, current_player, current_player, current_player, current_player],
+        ]
+        self.update_board_colors()
+
+    def show_tie_game(self):
+        #TODO: Display on the board that there was a draw
+        pass
+
+
     def is_board_full(self):
         #TODO: Return whether or not the game state has no more legal moves
         pass  
@@ -195,17 +308,3 @@ class ConnectFour:
     def is_column_full(self, col: int):
         #TODO: Return if the given column is currently full
         pass
-
-    def check_win(self):
-        #TODO: Check the game state to see if any player has won or if there is a draw
-        pass
-
-    def show_winner(self):
-        #TODO: Display on the board who won
-        pass
-
-    def show_tie_game(self):
-        #TODO: Display on the board that there was a draw
-        pass
-
-
