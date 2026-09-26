@@ -1,5 +1,7 @@
 Opening screen: pick color x2
-- first row lights up with 
+- first row lights up with each color
+- save p1 color and p2 color
+- current player = p1
 
 6x8 grid
 
