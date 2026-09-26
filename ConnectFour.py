@@ -83,6 +83,8 @@ class ConnectFour:
         if self.choose_color:
             if self.current_player == self.p1:
                 self.p1 = self.choose_list[x]
+                self.board.set_cell_color(x,y,OFF)
+                self.board.update_display()
                 self.current_player = self.p2
             elif self.current_player == self.p2:
                 self.p2 = self.choose_list[x]
@@ -112,6 +114,11 @@ class ConnectFour:
             #     self.update_board_colors()
             self.game_state[self.find_lowest_empty_row(x)][x] = self.current_player
             self.update_board_colors()
+            if self.current_player == self.p1:
+                self.current_player = self.p2
+            elif self.current_player == self.p2:            
+                self.current_player = self.p1 
+             
             
 
 
@@ -129,16 +136,27 @@ class ConnectFour:
     def find_lowest_empty_row(self, col: int):
         c = []
         for i in self.game_state:
-            c += self.game_state[col]
+            c.append(i[col])
+        print(f"CCCCCCC {c}")
         
         c = c[::-1]
         a = 0
-        for i in c:
-            if i == WHITE:
+        for b in c:
+            print(b)
+            if b == WHITE:
                 return 5 - a
-            a += 1;
+            a += 1
+            print(a)
             if a >= 6:
                 raise Exception("column is full")
+        """
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE],
+            [WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE, WHITE]
+        """
 
     def place_piece(self, col: int):
         #TODO: Finds the legal move in the column, and updates the game state to reflect the new piece, checking to see if a player has won with that new piece. Don't forget to play a sound!
@@ -159,7 +177,10 @@ class ConnectFour:
 
     def show_current_player(self):
         for i in range(8):
-            self.board.set_cell_color(i, 0, self.current_player)
+            if self.current_player == self.p1:
+                self.board.set_cell_color(i, 0, self.p2)
+            elif self.current_player == self.p2:
+                self.board.set_cell_color(i, 0, self.p1)
             self.board.update_display()
         pass
 
