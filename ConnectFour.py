@@ -59,8 +59,13 @@ class ConnectFour:
         pass
 
     def update_board_colors(self):
-        #TODO: Take the current game state and update the board colors accordingly. Hint: look at NeoTrellisGame.py for functions to update the colors and display the colors
-        pass
+        #TODO: Taie the current game state and update the board colors accordingly. Hint: look at NeoTrellisGame.py for functions to update the colors and display the colors
+        for a in range(6):
+            for b in range(8):
+                self.board.set_cell_color(b, a+2, self.game_state[a][b])
+            
+        self.board.update_display()
+        
 
     def switch_player(self):
         #TODO: Change which player is curently placing a piece. Keep track of this in some sort of variable
@@ -76,7 +81,7 @@ class ConnectFour:
 
     def get_player_color(self, player) -> tuple[int, int, int]:
         #TODO: Return the color for the given player 
-        passExamples/disco.py
+        pass
 
     def is_column_full(self, col: int):
         #TODO: Return if the given column is currently full
