@@ -97,13 +97,22 @@ class ConnectFour:
 
         if self.game:
             self.show_current_player()
-            yc = 2
-            while yc < 8:
-                self.board.set_cell_color(x,yc, self.current_player)
-                yc = yc + 2
+            
+            # yc = 2
+            # while yc < 8:
+            #     self.board.set_cell_color(x,yc, self.current_player)
+            #     yc = yc + 1
 
-                time.sleep(0.1)
-                self.board.update_display()
+            #     time.sleep(0.1)
+            #     self.board.update_display()
+            #     self.board.set_cell_color(x,yc-1, WHITE)
+            #     time.sleep(0.1)
+            #     self.board.update_display()
+            #     self.game_state[self.find_lowest_empty_row(x)][x] = self.current_player
+            #     self.update_board_colors()
+            self.game_state[self.find_lowest_empty_row(x)][x] = self.current_player
+            self.update_board_colors()
+            
 
 
         # self.update_board_colors()
@@ -118,8 +127,18 @@ class ConnectFour:
         pass
 
     def find_lowest_empty_row(self, col: int):
-        #TODO: Return the lowest empty row in the column.
-        pass
+        c = []
+        for i in self.game_state:
+            c += self.game_state[col]
+        
+        c = c[::-1]
+        a = 0
+        for i in c:
+            if i == WHITE:
+                return 5 - a
+            a += 1;
+            if a >= 6:
+                raise Exception("column is full")
 
     def place_piece(self, col: int):
         #TODO: Finds the legal move in the column, and updates the game state to reflect the new piece, checking to see if a player has won with that new piece. Don't forget to play a sound!
